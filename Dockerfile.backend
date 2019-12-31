@@ -1,0 +1,22 @@
+FROM golang:1.12 AS backend-build
+
+WORKDIR /go/src/app
+COPY ./backend .
+
+ENV GO111MODULE on
+ENV GOPROXY https://goproxy.io
+
+RUN go install -v ./...
+
+# images
+FROM harbor-sh.matrix.co/matrix/crypto_trader:1.0
+
+WORKDIR /app
+
+ADD ./backend /app
+
+# copy backend files
+COPY --from=backend-build /go/bin/crawlab /usr/local/bin
+
+# start backend
+CMD ["crawlab"]

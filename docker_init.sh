@@ -19,8 +19,4 @@ else
 	sed -i "s?/css/?${CRAWLAB_BASE_URL}/css/?g" ${indexpath}
 fi
 
-# start nginx
-service nginx start
-
-# start backend
-crawlab
+serve -s dist/

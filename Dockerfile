@@ -8,19 +8,7 @@ ENV GOPROXY https://goproxy.io
 
 RUN go install -v ./...
 
-FROM node:8.16.0-alpine AS frontend-build
-
-ADD ./frontend /app
-WORKDIR /app
-
-# install frontend
-RUN npm config set unsafe-perm true
-RUN npm install -g yarn && yarn install --registry=https://registry.npm.taobao.org
-
-RUN npm run build:prod
-
-# images
-FROM ubuntu:latest
+FROM crybto_trader:latest
 
 ADD . /app
 
